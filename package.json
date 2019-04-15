@@ -1,0 +1,19 @@
+{
+  "name": "amazon-helper",
+  "version": "1.0.0",
+  "description": "converts amazon uk prices to euros and have ability to add the product to a list and calculates total price",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AbdulRIsmail/amazon-helper.git"
+  },
+  "author": "Abdulrahman Ismail",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AbdulRIsmail/amazon-helper/issues"
+  },
+  "homepage": "https://github.com/AbdulRIsmail/amazon-helper#readme"
+}
