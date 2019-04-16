@@ -1,16 +1,42 @@
 body {
+    font-family: 'Ubuntu';
     background: rgb(29, 29, 29);
+    margin: 0;
 }
 
 #welcome {
     padding: 10px;
-    width: 250px;
+    width: 300px;
     color: white;
+    background: rgb(60, 60, 60);
     text-align: center;
 }
 
-#welcome a {
-    font-size: 16px;
-    color: white;
-    font-weight: bold;
+#welcome h2 {
+    margin: 0;
 }
+
+#shortcuts {
+    text-align: center;
+}
+
+#shortcuts h2 {
+    margin-bottom: -15px;
+    color: #F0E68C;
+}
+
+#shortcuts ul {
+    padding: 0;
+}
+
+#shortcuts ul li {
+    display: inline-block;
+    list-style-type: none;
+    padding: 0 8px;
+    transition: ease-in-out;
+}
+
+#shortcuts ul li:hover {
+    transform: scale(1.15);
+}
+
