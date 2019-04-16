@@ -1,0 +1,22 @@
+{
+    "name": "Amazon Helper",
+    "version": "1.0",
+    "manifest_version": 2,
+    "browser_action": {
+        "default_icon": "./assets/images/amazon.png",
+        "default_popup": "./assets/views/popup.html"
+    },
+    "permissions":[
+        "activeTab",
+        "contextMenus", 
+        "tabs",
+        "http://*/*",
+        "https://*/*"
+        ],
+        "content_scripts": [
+            {
+              "matches": ["https://www.amazon.co.uk/*"],
+              "js": ["./assets/js/popup.js"]
+            }
+        ]
+}
