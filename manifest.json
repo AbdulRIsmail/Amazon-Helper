@@ -11,12 +11,13 @@
         "contextMenus", 
         "tabs",
         "http://*/*",
-        "https://*/*"
+        "https://*/*",
+        "storage"
         ],
-        "content_scripts": [
-            {
-              "matches": ["https://www.amazon.co.uk/*"],
-              "js": ["./assets/js/popup.js"]
-            }
-        ]
+    "content_scripts": [
+        {
+            "matches": ["https://www.amazon.co.uk/*"],
+            "js": ["./assets/js/popup.js"]
+        }
+    ]
 }
