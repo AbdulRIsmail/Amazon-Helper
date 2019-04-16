@@ -1,4 +1,5 @@
 // global variables for price
+var ukPrice;
 var price;
 var priceDiv;
 var convertedPrice;
@@ -45,6 +46,7 @@ formatPrice = (tag) => {
 
     // join the array back together to form a string
     price = price.join("");
+    ukPrice = price;
 }
 
 // converts the price
@@ -54,7 +56,7 @@ poundToEuro = () => {
 }
 
 // create button to add specifc items to collection
-collection = (tag) => {
+createCollectionBtn = (tag) => {
     // creates div 
     collectionDiv = document.createElement('div');
 
@@ -79,6 +81,15 @@ tagsName.forEach((tag) => {
         formatPrice(tag);
         poundToEuro();
         createEuroTag(tag);
-        collection(tag);
+        createCollectionBtn(tag);
     }
 });
+
+const collectionInfo = document.getElementById('collection-amazonHelper');
+
+collectionInfo.addEventListener('click', () => {
+    var title = document.querySelector('#title').innerText;
+    var image = document.querySelector('#landingImage').src;
+    var ukPrice = this.ukPrice;
+    var price = this.price;
+});      
