@@ -1,4 +1,6 @@
-const euro = document.getElementById('euro');
-euro.onchange = () => {
-  alert(euro);
-}
+// collection
+const collection = document.getElementById('collection');
+
+document.addEventListener('DOMContentLoaded', function () {
+  
+});

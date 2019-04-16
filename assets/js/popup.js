@@ -1,8 +1,12 @@
-// global variables
+// global variables for price
 var price;
 var priceDiv;
 var convertedPrice;
 var poundToEuroRate = 1.15674;
+
+// global variables for collections
+var collectionDiv;
+var collectionBtn;
 
 // amazon have two ways of displaying their price
 var tagsName = ['priceblock_dealprice', 'priceblock_ourprice'];
@@ -49,10 +53,32 @@ poundToEuro = () => {
     price = tempPrice.toFixed(2);
 }
 
+// create button to add specifc items to collection
+collection = (tag) => {
+    // creates div 
+    collectionDiv = document.createElement('div');
+
+    // set the id for collectionDiv
+    collectionDiv.id = 'collection-amazonHelper';
+
+    // creates button
+    collectionBtn = document.createElement('button');
+
+    // change the text of the button
+    collectionBtn.innerHTML = 'Add To Collection';
+
+    // append the collectionDiv underneath the amazon price
+    document.getElementById(tag).appendChild(collectionDiv);
+
+    // append the button to the div
+    document.getElementById(collectionDiv.id).appendChild(collectionBtn);
+}
+
 tagsName.forEach((tag) => {
     if (document.getElementById(tag)) {
         formatPrice(tag);
         poundToEuro();
         createEuroTag(tag);
+        collection(tag);
     }
 });
