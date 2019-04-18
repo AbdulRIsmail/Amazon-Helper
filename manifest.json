@@ -17,7 +17,10 @@
     "content_scripts": [
         {
             "matches": ["https://www.amazon.co.uk/*"],
-            "js": ["./assets/js/popup.js"]
+            "css": ["./assets/css/content.css"],
+            "js": [
+                "./assets/js/price.js"
+            ]
         }
     ]
 }

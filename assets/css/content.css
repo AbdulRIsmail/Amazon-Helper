@@ -1,0 +1,11 @@
+#collection-amazonHelper, #priceInEuro {
+    color: #F0E68C;
+    text-align: center;
+    background: rgb(29, 29, 29);
+    font-size: 17px;
+}
+
+#collection-amazonHelper button {
+    margin: 5px;
+    border-radius: 3px;
+}
