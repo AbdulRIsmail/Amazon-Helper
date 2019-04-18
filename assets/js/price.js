@@ -120,7 +120,6 @@ createProduct = () => {
         'productPrice': productPrice.innerText
     };
 
-
     // when user clicks add to collection
     // this saves to chromes local storage
     chrome.storage.sync.get({'Products': []}, (items) => {
