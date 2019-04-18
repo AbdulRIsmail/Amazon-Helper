@@ -108,9 +108,13 @@ createProduct = () => {
     productInfo.appendChild(productTitle);
     productInfo.appendChild(productPrice);
 
+    // set the information for the product
+    productImg.src = document.querySelector('#landingImage').src;
+    productTitle.innerText = document.querySelector('#productTitle').innerText;
+    productPrice.innerText = '£' + ukPrice;
+
     // appending the productInfo div to the collection div
     document.getElementById('collection-amazonHelper').appendChild(productInfo);
-
 }
 
 // listens to if the collection button is clicked then 
