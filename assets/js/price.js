@@ -113,8 +113,22 @@ createProduct = () => {
     productTitle.innerText = document.querySelector('#productTitle').innerText;
     productPrice.innerText = '£' + ukPrice;
 
-    // appending the productInfo div to the collection div
-    document.getElementById('collection-amazonHelper').appendChild(productInfo);
+    // object of the product information
+    const productData = {
+        'productImg':  productImg.src, 
+        'productTitle': productTitle.innerText, 
+        'productPrice': productPrice.innerText
+    };
+
+
+    // when user clicks add to collection
+    // this saves to chromes local storage
+    chrome.storage.sync.get({'Products': []}, (items) => {
+        var tempArray = items.Products;
+        tempArray.push(productData);
+        chrome.storage.sync.set({'Products': tempArray});
+    })
+    
 }
 
 // listens to if the collection button is clicked then 
