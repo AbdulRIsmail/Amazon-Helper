@@ -5,6 +5,8 @@ populateElement = (id, src, title, price, div) => {
     var productTitle;
     var productPrice;
     var removeBtnImg;
+    var containerInfo;
+    var containerImg;
 
     // creating the elements for each product
     productInfo = document.createElement('div');
@@ -12,6 +14,8 @@ populateElement = (id, src, title, price, div) => {
     productTitle = document.createElement('p');
     productPrice = document.createElement('p');
     removeBtnImg = document.createElement('img');
+    containerInfo = document.createElement('div');
+    containerImg = document.createElement('div');
 
 
     // setting the class names
@@ -20,21 +24,29 @@ populateElement = (id, src, title, price, div) => {
     productTitle.className = 'productTitle';
     productPrice.className = 'productPrice';
     removeBtnImg.className = 'removeImg';
+    containerInfo.className = 'containerInfo';
+    containerImg.className = 'containerImg';
 
     // used to remove element if needed
     productInfo.id = id;
 
     // appending all product info inside the productInfo div
-    productInfo.appendChild(productImg);
-    productInfo.appendChild(productTitle);
-    productInfo.appendChild(productPrice);
-    productInfo.appendChild(removeBtnImg);
+    containerImg.appendChild(productImg);
+    containerInfo.appendChild(productTitle);
+    containerInfo.appendChild(productPrice);
+    containerInfo.appendChild(removeBtnImg);
+    productInfo.appendChild(containerImg);
+    productInfo.appendChild(containerInfo);
+
+    // only use first 20 words of the title
+    var res = title.split(/\s+/).slice(0,10).join(" ");
 
     // set the information for the product
     productImg.src = src;
-    productTitle.innerText = title;
+    productTitle.innerText = res;
     productPrice.innerText = price;
     removeBtnImg.src = '../images/delete.svg';
+    removeBtnImg.style.width = '20px';
 
     div.appendChild(productInfo);
 }
@@ -71,7 +83,8 @@ document.addEventListener('DOMContentLoaded', () => {
 removeItem = () => {
     var len = document.getElementsByClassName('removeImg');
 
-    for(var i = 0; i < 8; i++) {
+    // loops through to check what element i clicked on
+    for(var i = 0; i < len.length; i++) {
         ((i) => {
         len[i].addEventListener("click", () => {
             console.log("Clicked index: " + i);

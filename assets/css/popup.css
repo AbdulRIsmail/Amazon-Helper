@@ -3,6 +3,7 @@ body {
     background: rgb(29, 29, 29);
     margin: 0;
     text-align: center;
+    width: 302px;
 }
 
 #welcome {
@@ -28,7 +29,7 @@ ul {
 ul li {
     display: inline-block;
     list-style-type: none;
-    padding: 0 8px;
+    padding: 0 5px;
     transition: ease-in-out;
 }
 
@@ -47,32 +48,60 @@ button  {
 /* Product */
 
 .productInfo {
+    height: 100px;
     width: 300px;
+    display: block;
+    margin: 10px 0;
+    background: rgb(60, 60, 60);
     color: white;
-    letter-spacing: 1px;
-    margin: 20px 0;
-    border: 1px solid #F0E68C;
 }
 
-.productInfo img {
+.productInfo .containerImg {
     width: 120px;
-    display: inline-block;
+    height: 100px;
+    float: left;
 }
 
-.productInfo .productTitle {
-    display: inline-block;
+.productInfo .containerImg img {
+    height: 100px;
+}
+
+.productInfo .containerInfo {
     width: 180px;
-    font-size: 12px;
+    height: 100px;
+    float: left;
+    position: relative;
+}
+
+.productInfo .containerInfo img {
+    margin: 0 5px 0 0;
+    float: right;
+    transition: 3ms ease-in-out;
+    position: absolute;
+    right: 0px;
+    bottom: 6px;
+}
+
+.productInfo .containerInfo img:hover {
+    transform: scale(1.2);
+}
+
+.productInfo p {
     margin: 0;
-    vertical-align: top;
+    padding: 5px;
+    font-size: 14px;
+    word-wrap: break-word;
+    display: inline-block;
 }
 
-.productInfo .removeImg {
-    width: 40px;
-    cursor: pointer;
-    transition: 4ms ease-in-out;
+.productImg {
+    width: 120px;
+    height: 100px;
 }
 
-.productInfo .removeImg:hover {
-    transform: scale(1.1);
+.productPrice {
+    position: absolute;
+    right: 60px; 
+    bottom: 0px;
+    color: #F0E68C;
 }
