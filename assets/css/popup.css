@@ -4,6 +4,7 @@ body {
     margin: 0;
     text-align: center;
     width: 340px;
+    letter-spacing: 1px;
 }
 
 #welcome {
@@ -179,13 +180,11 @@ button  {
 
 #listPrice p {
     font-weight: bold;
-    letter-spacing: 1px;
     margin: 10px;
     font-size: 16px;
 }
 
 #listPrice li {
     margin: 0 6px 10px 6px;
-    letter-spacing: 1px;
     font-size: 16px;
 }

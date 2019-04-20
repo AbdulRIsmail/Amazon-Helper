@@ -42,13 +42,40 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
             // set the new chrome storage with the tempArr
             chrome.storage.sync.set({'Products': newArray});
 
+            // get prices of total items
+            var oldUkPrice = ukPriceTag.innerText;
+            var oldUsaPrice = usaPriceTag.innerText;
+            var oldEurPrice = eurPriceTag.innerText;            
+
+            // get prices of the item
+            var ukPriceItem = this.parentElement.childNodes[1].innerText;
+            var usaPriceItem = this.parentElement.childNodes[3].innerText;
+            var eurPriceItem = this.parentElement.childNodes[4].innerText;
+
+            // format the price to remove the sign
+            ukPriceItem = ukPriceItem.slice(1);
+            usaPriceItem = usaPriceItem.slice(1);
+            eurPriceItem = eurPriceItem.slice(1);
+            oldUkPrice = oldUkPrice.slice(1);
+            oldUsaPrice = oldUsaPrice.slice(1);
+            oldEurPrice = oldEurPrice.slice(1);
+
+            // take away the money from the main divs
+            oldUkPrice -= ukPriceItem;
+            oldUsaPrice -= usaPriceItem;
+            oldEurPrice -= eurPriceItem;
+
+            ukPriceTag.innerText = '£' + oldUkPrice.toFixed(2);
+            usaPriceTag.innerText = '$' + oldUsaPrice.toFixed(2);
+            eurPriceTag.innerText = '€' + oldEurPrice.toFixed(2);
+
             // remove the element using the id
             productInfo.className += ' deleteProduct'
             setTimeout(() => {
                 document.getElementById(id).remove();
             }, 300)          
         });
-    })
+    });
 
     // setting id of the div
     productInfo.id = id;
@@ -167,12 +194,13 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// divs of all the prices displayed
+var usaPriceTag = document.getElementById('usaPrice');
+var ukPriceTag = document.getElementById('ukPrice');
+var eurPriceTag = document.getElementById('eurPrice');
+
 // calculate and display price
 document.addEventListener('DOMContentLoaded', () => {
-    var usaPrice = document.getElementById('usaPrice');
-    var ukPrice = document.getElementById('ukPrice');
-    var eurPrice = document.getElementById('eurPrice');
-
     // stores total price for each currency
     let uk = 0;
     let usa = 0;
@@ -187,9 +215,9 @@ document.addEventListener('DOMContentLoaded', () => {
             }
 
             // display the values 
-            usaPrice.innerText = '$' + usa.toFixed(2);
-            ukPrice.innerText = '£' + uk.toFixed(2);
-            eurPrice.innerText = '€' + eur.toFixed(2); 
+            usaPriceTag.innerText = '$' + usa.toFixed(2);
+            ukPriceTag.innerText = '£' + uk.toFixed(2);
+            eurPriceTag.innerText = '€' + eur.toFixed(2); 
         }
     });
 });
