@@ -10,14 +10,13 @@
 </head>
 <body>
     <div id="welcome">
-        <h2>Welcome to Amazon <span style="color:orange;">Helper</span></h2>
+        <h2>Amazon <span style="color:orange;">Helper</span></h2>
+        <ul>
+            <!-- <li><img src="../images/mechanism.svg" alt="mechanism icon" width="30px"></li> -->
+            <li><button id="shortcutsBtn"><img src="../images/teleportation.svg" alt="teleportation icon" width="30px"></button></li>
+            <li><button id="basketBtn"><img src="../images/shopping-cart.svg" alt="shopping cart icon" width="30px"></button></li>
+        </ul>
     </div>
-
-    <ul>
-        <li><img src="../images/mechanism.svg" alt="mechanism icon" width="60px"></li>
-        <li><button id="shortcuts"><img src="../images/teleportation.svg" alt="teleportation icon" width="60px"></button></li>
-        <li><img src="../images/shopping-cart.svg" alt="shopping cart icon" width="60px"></li>
-    </ul>
 
     <div id="shortcuts">
         <h2>Shortcuts</h2>
@@ -29,8 +28,10 @@
         </ul>
     </div>
 
-    <div id="collection">
+    <div id="collection" style="display: none">
         <h2>Basket</h2>
+        <button><h3>Share Basket</h3></button>
+        <button><h3>Clear Basket</h3></button>
     </div>
 
     <script src="../js/popup.js"></script>

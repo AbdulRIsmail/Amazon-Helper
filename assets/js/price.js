@@ -85,17 +85,11 @@ tagsName.forEach((tag) => {
 
 // used to add product to the collection list
 createProduct = () => {    
-    // Collection Variables
-    var productInfo;
-    var productImg;
-    var productTitle;
-    var productPrice;
-
     // creating the elements for each product
-    productInfo = document.createElement('div');
-    productImg = document.createElement('img');
-    productTitle = document.createElement('p');
-    productPrice = document.createElement('p');
+    var productInfo = document.createElement('div');
+    var productImg = document.createElement('img');
+    var productTitle = document.createElement('p');
+    var productPrice = document.createElement('p');
 
     // setting the class names
     productInfo.className = 'productInfo';
@@ -115,6 +109,7 @@ createProduct = () => {
 
     // object of the product information
     const productData = {
+        'id': Math.random().toString(36).substr(2, 20),
         'productImg':  productImg.src, 
         'productTitle': productTitle.innerText, 
         'productPrice': productPrice.innerText
@@ -130,7 +125,7 @@ createProduct = () => {
     
 }
 
-// listens to if the collection button is clicked then 
+// listens to if the collection button is clicked then add button to basket
 document.getElementById("collection-amazonHelper-button").addEventListener("click", () => {
     createProduct();
 });
