@@ -1,4 +1,12 @@
 populateElement = (id, src, title, price, div) => {
+    // div to hold all the items
+    var list = document.getElementById('list');
+
+    if (document.getElementById('list') === null) {   
+        list = document.createElement('div');
+        list.id = 'list';
+    }
+
     // creating the elements for each product
     var productInfo = document.createElement('div');
     var productImg = document.createElement('img');
@@ -45,6 +53,7 @@ populateElement = (id, src, title, price, div) => {
     containerInfo.appendChild(removeBtnImg);
     productInfo.appendChild(containerImg);
     productInfo.appendChild(containerInfo);
+    list.appendChild(productInfo);
 
     // only use first 10 words of the title
     var res = title.split(/\s+/).slice(0,10).join(" ");
@@ -56,7 +65,7 @@ populateElement = (id, src, title, price, div) => {
     removeBtnImg.src = '../images/delete.svg';
     removeBtnImg.style.width = '23px';
 
-    div.appendChild(productInfo);
+    div.appendChild(list);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -96,6 +105,28 @@ document.addEventListener('DOMContentLoaded', () => {
     shortcutBtn.addEventListener('click', () => {
         collection.style.display = 'none';
         shortcuts.style.display = 'block';
+    });
+});
+
+
+// clear basket
+document.addEventListener('DOMContentLoaded', () => {
+    var clearBtn = document.getElementById('clear');    
+
+    clearBtn.addEventListener('click', () => {
+        var list = document.getElementById('list');
+
+        // remove the div list 
+        list.remove();
+
+        // remove all products from chrome storage
+        chrome.storage.sync.get({'Products': []}, (items) => { 
+            // new empty array
+            var tempArr = [];
+
+            // set the chrome storage to remove all previous data
+            chrome.storage.sync.set({'Products': tempArr});
+        });
     });
 });
 
