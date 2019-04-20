@@ -1,4 +1,4 @@
-populateElement = (id, src, title, price, div) => {
+populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
     // div to hold all the items
     var list = document.getElementById('list');
 
@@ -12,6 +12,8 @@ populateElement = (id, src, title, price, div) => {
     var productImg = document.createElement('img');
     var productTitle = document.createElement('p');
     var productPrice = document.createElement('p');
+    var usaProductPrice = document.createElement('p');
+    var eurProductPrice = document.createElement('p');
     var removeBtnImg = document.createElement('img');
     var containerInfo = document.createElement('div');
     var containerImg = document.createElement('div');
@@ -22,6 +24,8 @@ populateElement = (id, src, title, price, div) => {
     productImg.className = 'productImg';
     productTitle.className = 'productTitle';
     productPrice.className = 'productPrice';
+    usaProductPrice.className = 'usaProductPrice';
+    eurProductPrice.className = 'eurProductPrice';
     removeBtnImg.className = 'removeImg';
     containerInfo.className = 'containerInfo';
     containerImg.className = 'containerImg';
@@ -39,7 +43,10 @@ populateElement = (id, src, title, price, div) => {
             chrome.storage.sync.set({'Products': newArray});
 
             // remove the element using the id
-            document.getElementById(id).remove();          
+            productInfo.className += ' deleteProduct'
+            setTimeout(() => {
+                document.getElementById(id).remove();
+            }, 300)          
         });
     })
 
@@ -51,6 +58,8 @@ populateElement = (id, src, title, price, div) => {
     containerInfo.appendChild(productTitle);
     containerInfo.appendChild(productPrice);
     containerInfo.appendChild(removeBtnImg);
+    containerInfo.appendChild(usaProductPrice);
+    containerInfo.appendChild(eurProductPrice);
     productInfo.appendChild(containerImg);
     productInfo.appendChild(containerInfo);
     list.appendChild(productInfo);
@@ -61,7 +70,9 @@ populateElement = (id, src, title, price, div) => {
     // set the information for the product
     productImg.src = src;
     productTitle.innerText = res;
-    productPrice.innerText = price;
+    productPrice.innerText = '£' + ukPrice;
+    usaProductPrice.innerText = '$' + usaPrice;
+    eurProductPrice.innerText = '€' + eurPrice;
     removeBtnImg.src = '../images/delete.svg';
     removeBtnImg.style.width = '23px';
 
@@ -84,29 +95,52 @@ document.addEventListener('DOMContentLoaded', () => {
             items.Products[i].id, 
             items.Products[i].productImg,
             items.Products[i].productTitle,
-            items.Products[i].productPrice,
+            items.Products[i].ukPrice,
+            items.Products[i].usaPrice,
+            items.Products[i].eurPrice,
             collectionDiv);
     }
     });
 });
 
+var collection = document.getElementById('collection');
+var shortcuts = document.getElementById('shortcuts');
+
 // switch between different tabs
 document.addEventListener('DOMContentLoaded', () => {
     var shortcutBtn = document.getElementById('shortcutsBtn');
     var basketBtn = document.getElementById('basketBtn');
-    var collection = document.getElementById('collection');
-    var shortcuts = document.getElementById('shortcuts');
+
+    let tab = 'shortcut';
 
     basketBtn.addEventListener('click', () => {
-        collection.style.display = 'block';
-        shortcuts.style.display = 'none';
+        showHideTab(collection, shortcuts);
+        tab = 'basket';
+        chrome.storage.sync.set({'tab': tab});
     });
 
     shortcutBtn.addEventListener('click', () => {
-        collection.style.display = 'none';
-        shortcuts.style.display = 'block';
+        showHideTab(shortcuts, collection);
+        tab = 'shortcut';
+        chrome.storage.sync.set({'tab': tab});
     });
 });
+
+document.addEventListener('DOMContentLoaded', () => {
+    chrome.storage.sync.get('tab', (items) => { 
+        if (items.tab === 'basket') {
+            showHideTab(collection, shortcuts);
+        } else {
+            showHideTab(shortcuts, collection);
+        }
+    });
+});
+
+// function to hide or show tab
+showHideTab = (show, hide) => {
+    show.style.display = 'block';
+    hide.style.display = 'none';
+}
 
 
 // clear basket
@@ -120,7 +154,10 @@ document.addEventListener('DOMContentLoaded', () => {
         list.remove();
 
         // remove all products from chrome storage
-        chrome.storage.sync.get({'Products': []}, (items) => { 
+        chrome.storage.sync.get({'Products': []}, (items) => {
+            
+            console.log(items.Products);
+            
             // new empty array
             var tempArr = [];
 
@@ -130,3 +167,29 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// calculate and display price
+document.addEventListener('DOMContentLoaded', () => {
+    var usaPrice = document.getElementById('usaPrice');
+    var ukPrice = document.getElementById('ukPrice');
+    var eurPrice = document.getElementById('eurPrice');
+
+    // stores total price for each currency
+    let uk = 0;
+    let usa = 0;
+    let eur = 0;
+
+    chrome.storage.sync.get({'Products': []}, (items) => {
+        if (items.Products.length >= 1) {
+            for (let i = 0; i < items.Products.length; i++) {
+                uk += Number(items.Products[i].ukPrice);
+                usa += Number(items.Products[i].usaPrice);
+                eur += Number(items.Products[i].eurPrice);
+            }
+
+            // display the values 
+            usaPrice.innerText = '$' + usa.toFixed(2);
+            ukPrice.innerText = '£' + uk.toFixed(2);
+            eurPrice.innerText = '€' + eur.toFixed(2); 
+        }
+    });
+});

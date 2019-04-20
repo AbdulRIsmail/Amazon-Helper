@@ -1,9 +1,12 @@
-// global variables for price
-var ukPrice; // keeps the original price
+var ukPrice; // uk price of the item
+var eurPrice; // euro price of the item
+var usaPrice; // dollar price of the item
+
 var price; // formats the original price - removes the £ sign
 var priceDiv; // div container for the price tag
 var convertedPrice; // euro price
-var poundToEuroRate = 1.15674; // the rate for 1 pound to euro
+var poundToEuroRate = 1.1548; // the rate for 1 pound to euro
+var poundToDollarRate = 1.2991; // the rate for 1 pound to dollar
 
 // amazon have two ways of displaying their price
 var tagsName = ['priceblock_dealprice', 'priceblock_ourprice'];
@@ -27,7 +30,10 @@ formatPrice = (tag) => {
 // converts the price
 poundToEuro = () => {
     var tempPrice = poundToEuroRate * price;
-    price = tempPrice.toFixed(2);
+    eurPrice = tempPrice.toFixed(2);
+
+    var tempPrice = poundToDollarRate * price;
+    usaPrice = tempPrice.toFixed(2);
 }
 
 // displays the euro price underneath the uk price
@@ -42,7 +48,7 @@ createEuroTag = (tag) => {
     convertedPrice = document.createElement('p');
 
     // set the text of the paragraph 
-    convertedPrice.innerHTML = "Price In Euros: €" + price;
+    convertedPrice.innerHTML = "Price In Euros: €" + eurPrice;
 
     // append the div (price) underneath the actual price from amazon
     document.getElementById(tag).appendChild(priceDiv);
@@ -112,7 +118,9 @@ createProduct = () => {
         'id': Math.random().toString(36).substr(2, 20),
         'productImg':  productImg.src, 
         'productTitle': productTitle.innerText, 
-        'productPrice': productPrice.innerText
+        'ukPrice': ukPrice,
+        'eurPrice': eurPrice,
+        'usaPrice': usaPrice
     };
 
     // when user clicks add to collection
@@ -122,7 +130,6 @@ createProduct = () => {
         tempArray.push(productData);
         chrome.storage.sync.set({'Products': tempArray});
     })
-    
 }
 
 // listens to if the collection button is clicked then add button to basket
