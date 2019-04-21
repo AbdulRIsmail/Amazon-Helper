@@ -1,19 +1,31 @@
 #collection-amazonHelper, #priceInEuro {
-    color: #F0E68C;
+    letter-spacing: 1px;
     text-align: center;
     background: rgb(29, 29, 29);
+    color: #F0E68C;
     font-size: 17px;
 }
 
-#collection-amazonHelper {
-    background: red;
+#collection-amazonHelper button {
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    overflow: hidden;
+    outline: none;
+    cursor: pointer;
+    border: 1px solid #F0E68C;
+    border-radius: 2px;
+    color: #F0E68C;
+    padding: 10px;
+    margin: 10px;
+    transition: .1s ease-in-out;
 }
 
-#collection-amazonHelper button {
-    margin: 5px;
-    border-radius: 3px;
-    padding: 0;
-    margin: 0;
-    border-radius: 5px;
-    display: block;
+#collection-amazonHelper button:hover {
+    transform: scale(1.1);
+}
+
+#slideDown {
+    color: rgb(29, 29, 29);
+    background: lightgreen;
+    padding: 10px;
 }

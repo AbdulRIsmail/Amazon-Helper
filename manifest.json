@@ -16,7 +16,13 @@
         ],
     "content_scripts": [
         {
-            "matches": ["https://www.amazon.co.uk/*"],
+            "matches": [
+                "https://www.amazon.co.uk/*", 
+                "https://www.amazon.com/*", 
+                "https://www.amazon.fr/*",
+                "https://www.amazon.it/*",
+                "https://www.amazon.de/*"]
+                ,
             "css": ["./assets/css/content.css"],
             "js": [
                 "./assets/js/price.js"

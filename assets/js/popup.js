@@ -177,13 +177,15 @@ document.addEventListener('DOMContentLoaded', () => {
     clearBtn.addEventListener('click', () => {
         var list = document.getElementById('list');
 
+        ukPriceTag.innerText = '£0.00';
+        usaPriceTag.innerText = '$0.00';
+        eurPriceTag.innerText = '€0.00';
+
         // remove the div list 
         list.remove();
 
         // remove all products from chrome storage
         chrome.storage.sync.get({'Products': []}, (items) => {
-            
-            console.log(items.Products);
             
             // new empty array
             var tempArr = [];

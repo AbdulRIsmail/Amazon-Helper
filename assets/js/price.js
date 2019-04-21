@@ -1,12 +1,16 @@
-var ukPrice; // uk price of the item
-var eurPrice; // euro price of the item
-var usaPrice; // dollar price of the item
+var itemPrice; // uk price of the item
+var ukToEuroConverted; // euro price of the item
+var ukToUsaConverted; // dollar price of the item
+var dollarToUkConverted;
+var dollarToEurConverted;
 
 var price; // formats the original price - removes the £ sign
 var priceDiv; // div container for the price tag
 var convertedPrice; // euro price
-var poundToEuroRate = 1.1548; // the rate for 1 pound to euro
-var poundToDollarRate = 1.2991; // the rate for 1 pound to dollar
+const poundToEuroRate = 1.1548; // the rate for 1 pound to euro
+const poundToDollarRate = 1.2991; // the rate for 1 pound to dollar
+const dollarToEuroRate = 0.88890;
+const dollarToPoundRate = 0.76976;
 
 // amazon have two ways of displaying their price
 var tagsName = ['priceblock_dealprice', 'priceblock_ourprice'];
@@ -16,28 +20,46 @@ formatPrice = (tag) => {
     // create a temporary price variable and copy the price into it
     price = document.getElementById(tag).innerHTML;
 
+    // get first character of the price
+    // var firstChar = price.charAt(0);    
+    
     // split each character and convert into array
     price = price.split('');
 
-    // remove the first element (£)
+    // remove the first element (£ or $)
     price.shift();
 
     // join the array back together to form a string
     price = price.join("");
-    ukPrice = price;
+
+    // if (firstChar === '£') {
+    //     ukPrice = price;
+    // } else if (firstChar === '$') {
+    //     usaPrice = price;
+    // }
+
+    itemPrice = price;
 }
 
-// converts the price
-poundToEuro = () => {
-    var tempPrice = poundToEuroRate * price;
-    eurPrice = tempPrice.toFixed(2);
-
+convertPrices = () => {
+    // convert prices
     var tempPrice = poundToDollarRate * price;
-    usaPrice = tempPrice.toFixed(2);
+    ukToUsaConverted = tempPrice.toFixed(2);
+
+    var tempPrice = poundToEuroRate * price;
+    ukToEuroConverted = tempPrice.toFixed(2);
+
+    var tempPrice = dollarToPoundRate * price;
+    dollarToUkConverted = tempPrice.toFixed(2);
+
+    var tempPrice = dollarToEuroRate * price;
+    dollarToEurConverted = tempPrice.toFixed(2);
 }
 
 // displays the euro price underneath the uk price
-createEuroTag = (tag) => {
+createPriceTag = (tag, hostname) => {
+    convertPrices();
+
     // create div
     priceDiv = document.createElement('div');
 
@@ -48,7 +70,13 @@ createEuroTag = (tag) => {
     convertedPrice = document.createElement('p');
 
     // set the text of the paragraph 
-    convertedPrice.innerHTML = "Price In Euros: €" + eurPrice;
+    if (hostname === 'uk') {
+        convertedPrice.innerHTML = "€" + ukToEuroConverted + '<br>' +  '$' + ukToUsaConverted;
+    } 
+    
+    if (hostname === 'us') {
+        convertedPrice.innerHTML = "£" + dollarToUkConverted + '<br>' +  '€' + dollarToEurConverted;
+    }
 
     // append the div (price) underneath the actual price from amazon
     document.getElementById(tag).appendChild(priceDiv);
@@ -71,7 +99,7 @@ createCollectionBtn = (tag) => {
     collectionBtn.id = 'collection-amazonHelper-button';
 
     // change the text of the button
-    collectionBtn.innerHTML = 'Add To Collection';
+    collectionBtn.innerHTML = 'Add To Basket';
 
     // append the collectionDiv underneath the amazon price
     document.getElementById(tag).appendChild(collectionDiv);
@@ -80,17 +108,30 @@ createCollectionBtn = (tag) => {
     document.getElementById(collectionDiv.id).appendChild(collectionBtn);
 }
 
+
 tagsName.forEach((tag) => {
     if (document.getElementById(tag)) {
         formatPrice(tag);
-        poundToEuro();
-        createEuroTag(tag);
+
+        if (window.location.hostname === 'www.amazon.co.uk') {
+            createPriceTag(tag, 'uk');   
+        }
+
+        if (window.location.hostname === 'www.amazon.com') {
+            createPriceTag(tag, 'us');
+        }
+
+        if (window.location.hostname === 'www.amazon.de' || window.location.hostname === 'www.amazon.it' || window.location.hostname === 'www.amazon.fr') {
+
+        }
+
+
         createCollectionBtn(tag);
     }
 });
 
 // used to add product to the collection list
-createProduct = () => {    
+createProduct = (hostname) => {    
     // creating the elements for each product
     var productInfo = document.createElement('div');
     var productImg = document.createElement('img');
@@ -111,16 +152,21 @@ createProduct = () => {
     // set the information for the product
     productImg.src = document.querySelector('#landingImage').src;
     productTitle.innerText = document.querySelector('#productTitle').innerText;
-    productPrice.innerText = '£' + ukPrice;
+
+    // get link of the website
+    var origin = window.location.origin;
+    var pathname = window.location.pathname;
 
     // object of the product information
     const productData = {
         'id': Math.random().toString(36).substr(2, 20),
         'productImg':  productImg.src, 
         'productTitle': productTitle.innerText, 
-        'ukPrice': ukPrice,
-        'eurPrice': eurPrice,
-        'usaPrice': usaPrice
+        'ukPrice': hostname === 'us' ? dollarToUkConverted : itemPrice,
+        'eurPrice': hostname === 'us' ? dollarToEurConverted : ukToEuroConverted,
+        'usaPrice': hostname === 'us' ? itemPrice : ukToUsaConverted,
+        'link': origin + '' + pathname,
+        'host': hostname
     };
 
     // when user clicks add to collection
@@ -134,5 +180,24 @@ createProduct = () => {
 
 // listens to if the collection button is clicked then add button to basket
 document.getElementById("collection-amazonHelper-button").addEventListener("click", () => {
-    createProduct();
+    // animation to show product was added
+    var slideDown = document.createElement('h4');
+    var collectionBtn = document.getElementById('collection-amazonHelper');
+    collectionBtn.appendChild(slideDown);
+
+    slideDown.id = 'slideDown';
+    slideDown.innerText = 'Added To Basket!';
+
+    setInterval(() => {
+        slideDown.remove();
+    }, 800);
+
+    if (window.location.hostname === 'www.amazon.com') {
+        createProduct('us');   
+    } else if (window.location.hostname === 'www.amazon.co.uk') {
+        createProduct('uk');   
+    }
 });
+
+
+// for denmark amazon
