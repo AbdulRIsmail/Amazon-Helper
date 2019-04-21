@@ -18,10 +18,7 @@
         {
             "matches": [
                 "https://www.amazon.co.uk/*", 
-                "https://www.amazon.com/*", 
-                "https://www.amazon.fr/*",
-                "https://www.amazon.it/*",
-                "https://www.amazon.de/*"]
+                "https://www.amazon.com/*"]
                 ,
             "css": ["./assets/css/content.css"],
             "js": [

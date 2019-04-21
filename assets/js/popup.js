@@ -1,4 +1,4 @@
-populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
+populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div) => {
     // div to hold all the items
     var list = document.getElementById('list');
 
@@ -17,7 +17,7 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
     var removeBtnImg = document.createElement('img');
     var containerInfo = document.createElement('div');
     var containerImg = document.createElement('div');
-
+    var linkImg = document.createElement('img');
 
     // setting the class names
     productInfo.className = 'productInfo';
@@ -29,6 +29,7 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
     removeBtnImg.className = 'removeImg';
     containerInfo.className = 'containerInfo';
     containerImg.className = 'containerImg';
+    linkImg.className =  'linkImg';
 
     // event listener for when i want to remove a product from the basket
     removeBtnImg.addEventListener('click', function(){
@@ -80,19 +81,27 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
     // setting id of the div
     productInfo.id = id;
 
+    // create link tag
+    var linkTag = document.createElement('a');
+    linkTag.href = link;    
+    linkTag.target = '_blank';
+
     // appending all product info inside the productInfo div
     containerImg.appendChild(productImg);
     containerInfo.appendChild(productTitle);
     containerInfo.appendChild(productPrice);
     containerInfo.appendChild(removeBtnImg);
+    containerInfo.appendChild(linkImg);
     containerInfo.appendChild(usaProductPrice);
     containerInfo.appendChild(eurProductPrice);
+    linkTag.appendChild(linkImg);
+    containerInfo.appendChild(linkTag);
     productInfo.appendChild(containerImg);
     productInfo.appendChild(containerInfo);
     list.appendChild(productInfo);
 
     // only use first 10 words of the title
-    var res = title.split(/\s+/).slice(0,10).join(" ");
+    var res = title.split(/\s+/).slice(0,10).join(" ");    
 
     // set the information for the product
     productImg.src = src;
@@ -102,6 +111,13 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, div) => {
     eurProductPrice.innerText = '€' + eurPrice;
     removeBtnImg.src = '../images/delete.svg';
     removeBtnImg.style.width = '23px';
+    linkImg.style.width = '24px';
+    
+    if (host === 'us') {
+        linkImg.src = '../images/united-states.svg';
+    } else {
+        linkImg.src = '../images/united-kingdom.svg';
+    }
 
     div.appendChild(list);
 }
@@ -125,6 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
             items.Products[i].ukPrice,
             items.Products[i].usaPrice,
             items.Products[i].eurPrice,
+            items.Products[i].host,
+            items.Products[i].link,
             collectionDiv);
     }
     });

@@ -3,13 +3,13 @@ body {
     background: rgb(29, 29, 29);
     margin: 0;
     text-align: center;
-    width: 340px;
+    width: 420px;
     letter-spacing: 1px;
 }
 
 #welcome {
     padding: 10px 0;
-    max-width: 340px;
+    max-width: 420px;
     color: white;
     background: rgb(60, 60, 60);
 }
@@ -85,7 +85,7 @@ button  {
 
 .productInfo {
     height: 100px;
-    width: 340px;
+    width: 420px;
     display: block;
     margin: 10px 0;
     background: rgb(60, 60, 60);
@@ -108,7 +108,7 @@ button  {
 }
 
 .productInfo .containerInfo {
-    width: 220px;
+    width: 300px;
     height: 100px;
     float: left;
     position: relative;
@@ -143,27 +143,32 @@ button  {
 
 .productPrice {
     position: absolute;
-    right: 97px; 
+    right: 70px; 
     bottom: 0px;
     color: #F0E68C;
 }
 
 .usaProductPrice {
     position: absolute;
-    right: 155px; 
+    right: 220px; 
     bottom: 0px;
     color: #F0E68C;
 }
 
 .eurProductPrice {
     position: absolute;
-    right: 35px; 
+    right: 145px; 
     bottom: 0px;
     color: #F0E68C;
 }
 
+.productInfo .containerInfo .linkImg {
+    position: absolute;
+    right: 30px; 
+    bottom: 3px;
+}
+
 #listPrice {
-    /* background: yellow; */
     color: lightgreen;
     margin: 20px;
     border-top: 1px solid lightgreen;
