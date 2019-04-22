@@ -40,7 +40,7 @@ h2, h3 {
 
 h3 {
     display: inline-block;
-    margin: 5px 15px;
+    margin: 3px 10px;
     padding: 10px;
     border: 1px solid #F0E68C;
     border-radius: 5px;
@@ -48,7 +48,7 @@ h3 {
 }
 
 #collection button {
-    padding: 5px 0;
+    padding: 4px 0;
     transition: 4ms ease-in-out;
 }
 
@@ -168,28 +168,66 @@ button  {
     bottom: 3px;
 }
 
-#listPrice {
+.listPrice {
     color: lightgreen;
     margin: 20px;
     border-top: 1px solid lightgreen;
     border-bottom: 1px solid lightgreen;
 }
 
-#listPrice ul  {
+.listPrice ul  {
     margin: 0;
 }
 
-#listPrice ul li:hover {
+.listPrice ul li:hover {
     transform: none;
 }
 
-#listPrice p {
+.listPrice p {
     font-weight: bold;
     margin: 10px;
     font-size: 16px;
 }
 
-#listPrice li {
+.listPrice li {
     margin: 0 6px 10px 6px;
     font-size: 16px;
+}
+
+#friends .linkImg {
+    position: absolute;
+    right: 20px; 
+    bottom: 3px;
+}
+
+input[type=text] {
+    padding: 5px; 
+    border: 1px solid #F0E68C;
+    -webkit-border-radius: 2px;
+    border-radius: 2px;
+    width: 250px;
+    margin: 10px;
+    font-size: 14px;
+}
+
+input[type=text]:focus, input[type=submit]:focus {
+    outline: none;
+}
+
+input[type=submit] {
+    font-size: 14px;
+    padding: 5px; 
+    background:#ccc; 
+    border: 1px solid #F0E68C;
+    color: #F0E68C;
+    cursor: pointer;
+    -webkit-border-radius: 2px;
+    border-radius: 2px; 
+    width: 80px;
+    background: transparent;
+    transition: 4ms ease-in-out;
+}
+
+input[type=submit]:hover {
+    transform: scale(1.1);
 }

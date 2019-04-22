@@ -179,25 +179,24 @@ createProduct = (hostname) => {
 }
 
 // listens to if the collection button is clicked then add button to basket
-document.getElementById("collection-amazonHelper-button").addEventListener("click", () => {
-    // animation to show product was added
-    var slideDown = document.createElement('h4');
-    var collectionBtn = document.getElementById('collection-amazonHelper');
-    collectionBtn.appendChild(slideDown);
-
-    slideDown.id = 'slideDown';
-    slideDown.innerText = 'Added To Basket!';
-
-    setInterval(() => {
-        slideDown.remove();
-    }, 800);
-
-    if (window.location.hostname === 'www.amazon.com') {
-        createProduct('us');   
-    } else if (window.location.hostname === 'www.amazon.co.uk') {
-        createProduct('uk');   
-    }
-});
-
-
-// for denmark amazon
+if (document.getElementById("collection-amazonHelper-button")) {
+    document.getElementById("collection-amazonHelper-button").addEventListener("click", () => {
+        // animation to show product was added
+        var slideDown = document.createElement('h4');
+        var collectionBtn = document.getElementById('collection-amazonHelper');
+        collectionBtn.appendChild(slideDown);
+    
+        slideDown.id = 'slideDown';
+        slideDown.innerText = 'Added To Basket!';
+    
+        setInterval(() => {
+            slideDown.remove();
+        }, 800);
+    
+        if (window.location.hostname === 'www.amazon.com') {
+            createProduct('us');   
+        } else if (window.location.hostname === 'www.amazon.co.uk') {
+            createProduct('uk');   
+        }
+    });
+}

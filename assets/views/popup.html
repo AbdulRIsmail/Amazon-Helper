@@ -15,6 +15,7 @@
             <!-- <li><img src="../images/mechanism.svg" alt="mechanism icon" width="30px"></li> -->
             <li><button id="shortcutsBtn"><img src="../images/teleportation.svg" alt="teleportation icon" width="30px"></button></li>
             <li><button id="basketBtn"><img src="../images/shopping-cart.svg" alt="shopping cart icon" width="30px"></button></li>
+            <li><button id="friendshipBtn"><img src="../images/friendship.svg" alt="shopping cart icon" width="30px"></button></li>
         </ul>
     </div>
 
@@ -31,13 +32,28 @@
     <div id="collection" style="display: none">
         <h2>Basket</h2>
         <button id="share"><h3>Share Basket</h3></button>
+        <button id="friendsBasket"><h3>Friends Basket</h3></button>
         <button id="clear"><h3>Clear Basket</h3></button>
-        <div id="listPrice">
+        <div class="listPrice">
             <p>Total Price of Basket</p>
             <ul>
                 <li id="usaPrice">$0.00</li>
                 <li id="ukPrice">£0.00</li>
                 <li id="eurPrice">€0.00</li>
+            </ul>
+        </div>
+    </div>
+
+    <div id="friends" style="display: none">
+        <h2>Enter Your Friends URL</h2>
+        <input type="text" id="url" value ="" size=20> 
+        <input type="submit" value="Submit" id="friendsSubmit">  
+        <div class="listPrice">
+            <p>Total Price of Basket</p>
+            <ul>
+                <li id="usaPriceFriends">$0.00</li>
+                <li id="ukPriceFriends">£0.00</li>
+                <li id="eurPriceFriends">€0.00</li>
             </ul>
         </div>
     </div>

@@ -18,7 +18,8 @@
         {
             "matches": [
                 "https://www.amazon.co.uk/*", 
-                "https://www.amazon.com/*"]
+                "https://www.amazon.com/*",
+                "https://www.youtube.com/*"]
                 ,
             "css": ["./assets/css/content.css"],
             "js": [
