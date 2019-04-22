@@ -19,6 +19,9 @@
             "matches": [
                 "https://www.amazon.co.uk/*", 
                 "https://www.amazon.com/*",
+                "https://www.amazon.it/*",
+                "https://www.amazon.fr/*",
+                "https://www.amazon.de/*",
                 "https://www.youtube.com/*"]
                 ,
             "css": ["./assets/css/content.css"],
@@ -26,5 +29,10 @@
                 "./assets/js/price.js"
             ]
         }
-    ]
+    ],
+    "background": {
+        "scripts": ["./assets/js/background.js"]
+    },
+    "content_security_policy": "script-src 'self' https://www.gstatic.com/ https://*.firebaseio.com https://www.googleapis.com; object-src 'self'; connect-src 'self' wss://*.firebaseio.com;"
+
 }

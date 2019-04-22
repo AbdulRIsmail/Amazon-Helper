@@ -3,13 +3,13 @@ body {
     background: rgb(29, 29, 29);
     margin: 0;
     text-align: center;
-    width: 420px;
+    width: 460px;
     letter-spacing: 1px;
 }
 
 #welcome {
     padding: 10px 0;
-    max-width: 420px;
+    max-width: 460px;
     color: white;
     background: rgb(60, 60, 60);
 }
@@ -85,7 +85,7 @@ button  {
 
 .productInfo {
     height: 100px;
-    width: 420px;
+    width: 460px;
     display: block;
     margin: 10px 0;
     background: rgb(60, 60, 60);
@@ -108,7 +108,7 @@ button  {
 }
 
 .productInfo .containerInfo {
-    width: 300px;
+    width: 340px;
     height: 100px;
     float: left;
     position: relative;
@@ -120,6 +120,16 @@ button  {
     transition: 3ms ease-in-out;
     position: absolute;
     right: 0px;
+    bottom: 5px;
+    cursor: pointer;
+}
+
+.productInfo .containerInfo .hideShow {
+    margin: 0 5px 0 0;
+    float: right;
+    transition: 3ms ease-in-out;
+    position: absolute;
+    right: 30px;
     bottom: 5px;
     cursor: pointer;
 }
@@ -143,28 +153,28 @@ button  {
 
 .productPrice {
     position: absolute;
-    right: 70px; 
+    right: 110px; 
     bottom: 0px;
     color: #F0E68C;
 }
 
 .usaProductPrice {
     position: absolute;
-    right: 220px; 
+    right: 260px; 
     bottom: 0px;
     color: #F0E68C;
 }
 
 .eurProductPrice {
     position: absolute;
-    right: 145px; 
+    right: 185px; 
     bottom: 0px;
     color: #F0E68C;
 }
 
 .productInfo .containerInfo .linkImg {
     position: absolute;
-    right: 30px; 
+    right: 65px; 
     bottom: 3px;
 }
 
@@ -196,7 +206,7 @@ button  {
 
 #friends .linkImg {
     position: absolute;
-    right: 20px; 
+    right: 40px; 
     bottom: 3px;
 }
 
@@ -230,4 +240,8 @@ input[type=submit] {
 
 input[type=submit]:hover {
     transform: scale(1.1);
+}
+
+.hide {
+    opacity: 0.2;
 }

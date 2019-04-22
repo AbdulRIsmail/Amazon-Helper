@@ -3,6 +3,9 @@ var ukToEuroConverted; // euro price of the item
 var ukToUsaConverted; // dollar price of the item
 var dollarToUkConverted;
 var dollarToEurConverted;
+var euroToDollarConverted;
+var euroToUkConverted;
+
 
 var price; // formats the original price - removes the £ sign
 var priceDiv; // div container for the price tag
@@ -11,34 +14,46 @@ const poundToEuroRate = 1.1548; // the rate for 1 pound to euro
 const poundToDollarRate = 1.2991; // the rate for 1 pound to dollar
 const dollarToEuroRate = 0.88890;
 const dollarToPoundRate = 0.76976;
+const euroToDollarRate = 1.12585;
+const euroToPoundRate = 0.867303;
 
 // amazon have two ways of displaying their price
 var tagsName = ['priceblock_dealprice', 'priceblock_ourprice'];
 
 // formats the price
-formatPrice = (tag) => {
+formatPrice = (tag, host) => {
     // create a temporary price variable and copy the price into it
     price = document.getElementById(tag).innerHTML;
 
-    // get first character of the price
-    // var firstChar = price.charAt(0);    
-    
-    // split each character and convert into array
-    price = price.split('');
+    if (host === 'international') {
+        // formats amazons international websites
+        price = price.split('EUR ');
+        price = price.join("");
+        price = price.split('');
 
-    // remove the first element (£ or $)
-    price.shift();
+        for (let i = 0; i < price.length; i++) {
+            if (price[i] === ',') {                
+                price[i] = '.';
+            }        
+        }
 
-    // join the array back together to form a string
-    price = price.join("");
+        price = price.join("");
+        
+        itemPrice = price;
+    } else {
+        console.log(price);
+        
+        // split each character and convert into array
+        price = price.split('');
 
-    // if (firstChar === '£') {
-    //     ukPrice = price;
-    // } else if (firstChar === '$') {
-    //     usaPrice = price;
-    // }
+        // remove the first element (£ or $)
+        price.shift();
 
-    itemPrice = price;
+        // join the array back together to form a string
+        price = price.join("");
+        console.log(price);
+        itemPrice = price;
+    }
 }
 
 convertPrices = () => {
@@ -54,6 +69,12 @@ convertPrices = () => {
 
     var tempPrice = dollarToEuroRate * price;
     dollarToEurConverted = tempPrice.toFixed(2);
+
+    var tempPrice = euroToDollarRate * price;
+    euroToDollarConverted = tempPrice.toFixed(2);
+    
+    var tempPrice = euroToPoundRate * price;
+    euroToUkConverted = tempPrice.toFixed(2);
 }
 
 // displays the euro price underneath the uk price
@@ -76,6 +97,10 @@ createPriceTag = (tag, hostname) => {
     
     if (hostname === 'us') {
         convertedPrice.innerHTML = "£" + dollarToUkConverted + '<br>' +  '€' + dollarToEurConverted;
+    }
+
+    if (hostname === 'international') {
+        convertedPrice.innerHTML = "$" + euroToDollarConverted + '<br>' +  '£' + euroToUkConverted;
     }
 
     // append the div (price) underneath the actual price from amazon
@@ -111,20 +136,16 @@ createCollectionBtn = (tag) => {
 
 tagsName.forEach((tag) => {
     if (document.getElementById(tag)) {
-        formatPrice(tag);
-
         if (window.location.hostname === 'www.amazon.co.uk') {
+            formatPrice(tag, 'uk');
             createPriceTag(tag, 'uk');   
-        }
-
-        if (window.location.hostname === 'www.amazon.com') {
+        } else if (window.location.hostname === 'www.amazon.com') {
+            formatPrice(tag, 'us');
             createPriceTag(tag, 'us');
+        } else {
+            formatPrice(tag, 'international');
+            createPriceTag(tag, 'international');
         }
-
-        if (window.location.hostname === 'www.amazon.de' || window.location.hostname === 'www.amazon.it' || window.location.hostname === 'www.amazon.fr') {
-
-        }
-
 
         createCollectionBtn(tag);
     }
@@ -157,17 +178,34 @@ createProduct = (hostname) => {
     var origin = window.location.origin;
     var pathname = window.location.pathname;
 
+
     // object of the product information
     const productData = {
         'id': Math.random().toString(36).substr(2, 20),
         'productImg':  productImg.src, 
         'productTitle': productTitle.innerText, 
-        'ukPrice': hostname === 'us' ? dollarToUkConverted : itemPrice,
-        'eurPrice': hostname === 'us' ? dollarToEurConverted : ukToEuroConverted,
-        'usaPrice': hostname === 'us' ? itemPrice : ukToUsaConverted,
+        'ukPrice': '',
+        'eurPrice': '',
+        'usaPrice': '',
         'link': origin + '' + pathname,
         'host': hostname
     };
+
+
+    // set the prices of the product data according to the 
+    if (hostname === 'uk') {
+        productData.ukPrice = itemPrice;
+        productData.eurPrice = ukToEuroConverted;
+        productData.usaPrice = ukToUsaConverted;
+    } else if (hostname === 'usa') {
+        productData.ukPrice = dollarToUkConverted;
+        productData.eurPrice = dollarToEurConverted;
+        productData.usaPrice = itemPrice;
+    } else {
+        productData.ukPrice = euroToUkConverted;
+        productData.eurPrice = itemPrice;
+        productData.usaPrice = euroToDollarConverted;
+    }
 
     // when user clicks add to collection
     // this saves to chromes local storage
@@ -192,11 +230,17 @@ if (document.getElementById("collection-amazonHelper-button")) {
         setInterval(() => {
             slideDown.remove();
         }, 800);
-    
+
         if (window.location.hostname === 'www.amazon.com') {
             createProduct('us');   
         } else if (window.location.hostname === 'www.amazon.co.uk') {
             createProduct('uk');   
+        } else if (window.location.hostname === 'www.amazon.it') {
+            createProduct('it');
+        } else if (window.location.hostname === 'www.amazon.fr') {
+            createProduct('fr');
+        } else if (window.location.hostname === 'www.amazon.de') {
+            createProduct('de');
         }
     });
 }

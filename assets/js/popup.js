@@ -32,6 +32,7 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div,
     var containerInfo = document.createElement('div');
     var containerImg = document.createElement('div');
     var linkImg = document.createElement('img');
+    var hideShow = document.createElement('img');
 
     // setting the class names
     productInfo.className = 'productInfo';
@@ -44,11 +45,12 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div,
     containerInfo.className = 'containerInfo';
     containerImg.className = 'containerImg';
     linkImg.className =  'linkImg';
+    hideShow.className = 'hideShow';
 
     // event listener for when i want to remove a product from the basket
     if (basket !== 'friends') {
         // event listener for when i want to remove a product from the basket
-        removeBtnImg.addEventListener('click', function(){
+        removeBtnImg.addEventListener('click', function () {
             chrome.storage.sync.get({'Products': []}, (items) => {
                 // make a temporary array of the items.Products
                 var tempArr = items.Products;            
@@ -58,7 +60,7 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div,
 
                 // set the new chrome storage with the tempArr
                 chrome.storage.sync.set({'Products': newArray});
-
+            
                 // get prices of total items
                 var oldUkPrice = ukPriceTag.innerText;
                 var oldUsaPrice = usaPriceTag.innerText;
@@ -95,6 +97,60 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div,
         });
         removeBtnImg.src = '../images/delete.svg';
         removeBtnImg.style.width = '23px';
+        hideShow.src = '../images/blind.svg';
+        hideShow.style.width = '23px';
+
+        hideShow.addEventListener('click', function () {
+            var src = hideShow.src.split("/assets");
+
+            updatePrice = (hideShow) => {
+                // get prices of total items
+                var oldUkPrice = ukPriceTag.innerText;
+                var oldUsaPrice = usaPriceTag.innerText;
+                var oldEurPrice = eurPriceTag.innerText;            
+
+                // get prices of the item
+                var ukPriceItem = this.parentElement.childNodes[1].innerText;
+                var usaPriceItem = this.parentElement.childNodes[3].innerText;
+                var eurPriceItem = this.parentElement.childNodes[4].innerText;
+
+                // format the price to remove the sign
+                ukPriceItem = ukPriceItem.slice(1);
+                usaPriceItem = usaPriceItem.slice(1);
+                eurPriceItem = eurPriceItem.slice(1);
+                oldUkPrice = oldUkPrice.slice(1);
+                oldUsaPrice = oldUsaPrice.slice(1);
+                oldEurPrice = oldEurPrice.slice(1);
+
+                if (hideShow === 'hide') {
+                    // take away the money from the main divs
+                    oldUkPrice -= ukPriceItem;
+                    oldUsaPrice -= usaPriceItem;
+                    oldEurPrice -= eurPriceItem;
+
+                    ukPriceTag.innerText = '£' + oldUkPrice.toFixed(2);
+                    usaPriceTag.innerText = '$' + oldUsaPrice.toFixed(2);
+                    eurPriceTag.innerText = '€' + oldEurPrice.toFixed(2);       
+                } else if (hideShow === 'show') {
+                    // add price, fix to two decimal places then update the inner text of the price
+                    ukPriceTag.innerText = '£' + (+oldUkPrice + +ukPriceItem).toFixed(2)
+                    usaPriceTag.innerText = '$' + (+oldUsaPrice + +usaPriceItem).toFixed(2)
+                    eurPriceTag.innerText = '€' + (+oldEurPrice + +eurPriceItem).toFixed(2)
+                }
+            }
+
+            if (src[1] == '/images/blind.svg') {
+                hideShow.src = '../images/eye.svg';
+                productInfo.className += ' hide'
+                updatePrice('hide');
+            } else {
+                var temp = productInfo.className;
+                temp = productInfo.className.split(' hide');
+                productInfo.className = temp[0];
+                hideShow.src = '../images/blind.svg';
+                updatePrice('show');
+            }
+        });
     }
 
     // setting id of the div
@@ -114,6 +170,7 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div,
     containerInfo.appendChild(usaProductPrice);
     containerInfo.appendChild(eurProductPrice);
     linkTag.appendChild(linkImg);
+    containerInfo.appendChild(hideShow);
     containerInfo.appendChild(linkTag);
     productInfo.appendChild(containerImg);
     productInfo.appendChild(containerInfo);
@@ -132,8 +189,14 @@ populateElement = (id, src, title, ukPrice, usaPrice, eurPrice, host, link, div,
     
     if (host === 'us') {
         linkImg.src = '../images/united-states.svg';
-    } else {
+    } else if (host === 'uk') {
         linkImg.src = '../images/united-kingdom.svg';
+    } else if (host === 'it') {
+        linkImg.src = '../images/italy.svg';
+    } else if (host === 'fr') {
+        linkImg.src = '../images/france.svg';
+    } else if (host === 'de') {
+        linkImg.src = '..//images/germany.svg';
     }
 
     div.appendChild(list);
@@ -179,6 +242,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let tab = 'shortcut';
 
+    friendsBasket.addEventListener('click', () => {
+        showHideTab(friends, collection, shortcuts);
+    });
+
     basketBtn.addEventListener('click', () => {
         showHideTab(collection, shortcuts, friends);
         tab = 'basket';
@@ -193,7 +260,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     friendshipBtn.addEventListener('click', () => {
         showHideTab(friends, collection, shortcuts);
-        tab = 'friendship';
+        tab = 'basket';
         chrome.storage.sync.set({'tab': tab});
     });
 });
@@ -204,8 +271,6 @@ document.addEventListener('DOMContentLoaded', () => {
             showHideTab(collection, shortcuts, friends);
         } else if (items.tab === 'shortcut') {
             showHideTab(shortcuts, collection, friends);
-        } else {
-            showHideTab(friends, collection, shortcuts);
         }
     });
 });
@@ -284,7 +349,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // checks if the basket is empty
             if (items.Products.length === 0) {
-                alert('Basket Is Empty!')
+                // alert the user
+                var el = document.createElement("div");
+                el.setAttribute("style","position:absolute; top:60%; left:35%; background-color:lightgreen; padding: 5px; font-size: 13px; text-align: center; border-radius: 3px; box-shadow: 0px 0px 17px 27px rgba(0,0,0,0.75);");
+                el.innerHTML = 'Basket Is Empty!';
+                document.body.appendChild(el);
+
+                setTimeout(() => {
+                    el.remove();
+                }, 2000);
                 return;
             }
 
@@ -422,3 +495,8 @@ createFriendsBasket = (obj) => {
     document.getElementById('ukPriceFriends').innerText = '£' + ukPrice.toFixed(2);
     document.getElementById('eurPriceFriends').innerText = '€' + eurPrice.toFixed(2);    
 }
+
+// used to hide/show the item
+document.addEventListener('DOMContentLoaded', () => {
+
+});
