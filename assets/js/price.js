@@ -6,7 +6,6 @@ var dollarToEurConverted;
 var euroToDollarConverted;
 var euroToUkConverted;
 
-
 var price; // formats the original price - removes the £ sign
 var priceDiv; // div container for the price tag
 var convertedPrice; // euro price
@@ -227,9 +226,9 @@ if (document.getElementById("collection-amazonHelper-button")) {
         slideDown.id = 'slideDown';
         slideDown.innerText = 'Added To Basket!';
     
-        setInterval(() => {
+        setTimeout(() => {
             slideDown.remove();
-        }, 800);
+        }, 1000);
 
         if (window.location.hostname === 'www.amazon.com') {
             createProduct('us');   
