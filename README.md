@@ -1,4 +1,4 @@
-# amazon-helper extension
+# 🌐 Chrome Extension
 
 A chrome extension wrriten in JS, HTML and CSS to assist amazon shopers
 
